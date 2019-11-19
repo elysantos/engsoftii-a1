@@ -15,7 +15,9 @@ public class Emprestimo {
 
   private double valorPago;
 
-  private static double valorPadraoEmprestimo = 5;
+  public static double valorPadraoEmprestimo = 5;
+  public static int limitePorUsuario = 2;
+  public static int diasDeEmprestimo = 7;
 
   public double getValorAPagar(){
     double valor = valorPadraoEmprestimo;
@@ -31,4 +33,8 @@ public class Emprestimo {
     return valor;
   }
 
+  public void setDataEmprestimo(LocalDate dataEmprestimo) {
+    this.dataEmprestimo = dataEmprestimo;
+    this.dataPrevista = dataEmprestimo.plusDays(diasDeEmprestimo);
+  }
 }

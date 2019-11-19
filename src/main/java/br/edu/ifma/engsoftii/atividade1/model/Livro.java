@@ -12,5 +12,15 @@ public class Livro {
   private boolean isReservado;
   private boolean isEmprestado;
 
+  private Usuario usuarioReserva;
+
   private List<Emprestimo> historico;
+
+  public void setEmprestado(boolean emprestado) {
+    isEmprestado = emprestado;
+    if(emprestado){
+      isReservado = false;
+      usuarioReserva = null;
+    }
+  }
 }
