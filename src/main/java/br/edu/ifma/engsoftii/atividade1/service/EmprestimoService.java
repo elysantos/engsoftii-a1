@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmprestimoService {
@@ -36,8 +38,11 @@ public class EmprestimoService {
     emprestimo.setLivroLocado(livro);
     emprestimo.setDataEmprestimo(LocalDate.now());
 
-
     emprestimos.add(emprestimo);
     return true;
+  }
+
+  public Emprestimo ultimoEmprestimo(){
+    return emprestimos.get(emprestimos.size() - 1);
   }
 }
