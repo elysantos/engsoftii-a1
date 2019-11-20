@@ -5,6 +5,8 @@ import java.time.Period;
 import java.util.List;
 import lombok.Data;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Data
 public class Emprestimo {
   private Usuario usuario;
@@ -22,8 +24,7 @@ public class Emprestimo {
   public double getValorAPagar(){
     double valor = valorPadraoEmprestimo;
     if(dataDevolucao.isAfter(dataPrevista)){
-      Period periodo  = Period.between(dataDevolucao, dataPrevista);
-      int diasAtraso = periodo.getDays();
+      int diasAtraso = (int) DAYS.between(dataPrevista, dataDevolucao);
       if(diasAtraso * 0.4 > (valorPadraoEmprestimo * 0.6)){
         valor = valor + (valorPadraoEmprestimo * 0.6);
       }else if(diasAtraso > 0){

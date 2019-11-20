@@ -6,6 +6,7 @@ import br.edu.ifma.engsoftii.atividade1.model.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +45,20 @@ public class EmprestimoService {
 
   public Emprestimo ultimoEmprestimo(){
     return emprestimos.get(emprestimos.size() - 1);
+  }
+
+  public Emprestimo registrarDevolucao(Livro livro, Usuario usuario, LocalDate data){
+    Optional<Emprestimo> optionalEmprestimo = emprestimos.stream()
+            .filter(e-> (e.getUsuario().equals(usuario) && e.getLivroLocado().equals(livro)))
+            .findAny();
+    if(optionalEmprestimo.isPresent()){
+      Emprestimo emprestimo = optionalEmprestimo.get();
+      emprestimo.getLivroLocado().setEmprestado(false);
+
+      emprestimo.setDataDevolucao(data);
+
+      return emprestimo;
+    }
+    return null;
   }
 }

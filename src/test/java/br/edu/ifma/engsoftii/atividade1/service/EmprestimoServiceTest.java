@@ -140,21 +140,63 @@ class EmprestimoServiceTest {
      */
     @Test
     void deveTestarDevolucaoAntesDaData() {
+        //cenário
+        emprestimoService.criarEmprestimo(livro1, usuario1);
+        LocalDate data = LocalDate.now().plusDays(1);
+
+        //ação
+        Emprestimo emprestimo = emprestimoService.registrarDevolucao(livro1, usuario1, data);
+
+        //verificação
+        assertTrue(emprestimo.getValorAPagar()== Emprestimo.valorPadraoEmprestimo);
 
     }
 
     @Test
     void deveTestarDevolucaoNaDataPrevista() {
+        //cenário
+        emprestimoService.criarEmprestimo(livro1, usuario1);
+        LocalDate data = LocalDate.now().plusDays(Emprestimo.diasDeEmprestimo);
+
+        //ação
+        Emprestimo emprestimo = emprestimoService.registrarDevolucao(livro1, usuario1, data);
+
+        //verificação
+        assertTrue(emprestimo.getValorAPagar()== Emprestimo.valorPadraoEmprestimo);
 
     }
 
     @Test
     void deveTestarDevolucaoUmDiaDeAtraso() {
+        //cenário
+        emprestimoService.criarEmprestimo(livro1, usuario1);
+        LocalDate data = LocalDate.now().plusDays(Emprestimo.diasDeEmprestimo + 1);
 
+        //ação
+        Emprestimo emprestimo = emprestimoService.registrarDevolucao(livro1, usuario1, data);
+
+        //verificação
+        assertTrue(emprestimo.getValorAPagar()== Emprestimo.valorPadraoEmprestimo + 0.4);
     }
 
     @Test
     void deveTestarDevolucaoTrintaDiasDeAtraso() {
+        //cenário
+        emprestimoService.criarEmprestimo(livro1, usuario1);
+        LocalDate data = LocalDate.now().plusDays(Emprestimo.diasDeEmprestimo + 30);
 
+        //valor a pagar
+        double valor = Emprestimo.valorPadraoEmprestimo;
+        if(30 * 0.4 > Emprestimo.valorPadraoEmprestimo * 0.6){
+            valor = valor + Emprestimo.valorPadraoEmprestimo * 0.6;
+        }else{
+            valor = valor + 30 * 0.4;
+        }
+
+        //ação
+        Emprestimo emprestimo = emprestimoService.registrarDevolucao(livro1, usuario1, data);
+
+        //verificação
+        assertTrue(emprestimo.getValorAPagar() == valor);
     }
 }
